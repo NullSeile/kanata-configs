@@ -1,0 +1,100 @@
+(include system_symbols.kbd)
+(defcfg
+  process-unmapped-keys yes
+  block-unmapped-keys yes
+  ;; override-release-on-activation yes
+)
+
+;; (defsrc
+;;   tab       q   w   e   r   t     y   u   i   o   p   [   home
+;;   caps      a   s   d   f   g     h   j   k   l   ;   '
+;;   lsft      z   x   c   v   b     n   m   ,   .   /   rsft
+;;                   lmet lalt   spc   ralt <
+;; )
+(defsrc
+  1       2   3   4   5   6     7   8   9   0   -   =       home
+  tab     q   w   e   r   t     u   i   o   p   [   ]
+  caps    a   s   d   f   g     j   k   l   ;   '   ret
+                  x   c   v     n   m   ,
+)
+(deflayer colemak
+  @tabctrl   q   w   f   p   b     j   l   u   y   '   bspc    @layouts 
+  @escctrl   a   r   s   t   g     m   n   e   i   o   @retctrl
+  lsft      z   x   c   d   v     k   h   @,  @.  /   rsft
+        lalt @metaccent @oscontrol    @oscontrol spc @sym
+)
+(deflayer accents
+  _         _  _   _   _ _   _ _ @ú _  `  _  _
+  _         @á @dà @ß @dä _   _ @ñ @é @í @ó _
+  _         _  _   @ç  _ _   _ _ _  @· _  _
+                      _ _ _   _ _ _
+)
+(deflayer open_accents
+  _         _  _  _  _ _   _ _  _  _ _  _  _
+  _         @à _  _  _ _   _ _  @è _ @ò _
+  _         _  _  _  _ _   _ _  _  _ _  _
+                      _ _ _   _ _ _
+)
+(deflayer umlaut
+  _         _  _  _  _ _   _ _  @ü _  _  _ _
+  _         @ä _  _  _ _   _ _  _ @ï @ö _
+  _         _  _  _  _ _   _ _  _  _ _  _
+                      _ _ _   _ _ _
+)
+
+(deflayer numsym
+  _    @! @@ @# @$  @%     @^ @& @* @lp @rp _    _
+  @oscontrol    <  @{ =  @}  @>     _  @[ @- @] _ @oscontrol
+  _    _  @| @_ @~  _      _  _  + _  \ _
+                      _ _ _   _ _ _
+)
+(deflayer oscontrol
+  _   _ 🔉 ▲ 🔊 🔇    _ 7 8 9 _ _ _
+  _   🔅 ◀ ▼ ▶  🔆    _ 4 5 6 _ _
+  @sym   _ _ _ _ _    _ 1 2 3 _ _
+          _ _ _   _ _ 0
+)
+
+(deflayermap (shift-exceptions)
+, (multi (release-key sft) ; lsft)
+. S-;
+)
+
+
+(defvar
+  doubletap-timeout 100
+  hold-timeout 150
+  dt $doubletap-timeout
+  ht $hold-timeout
+)
+(defalias
+  sft (multi lsft (layer-while-held shift-exceptions))
+  oscontrol (layer-while-held oscontrol)
+  escctrl (tap-hold-press $dt 300 esc lctrl)
+  retctrl(tap-hold-press $dt 300 return rctrl)
+  sftrev (tap-hold-press $dt 300 ` rsft)
+  sym (layer-while-held numsym)
+
+  metaccent (tap-hold 100 $ht (one-shot-press 300 (layer-while-held accents)) lmet )
+  symaccent (tap-hold 100 $ht (one-shot-press 300 (layer-while-held accents)) @sym )
+
+
+  dà (one-shot-press 300 (layer-while-held open_accents))
+  dä (one-shot-press 300 (layer-while-held umlaut))
+
+  tabctrl (tap-hold 100 $ht tab lctrl)
+  bspcalt (tap-hold 100 $ht bspc rctrl)
+  layouts (tap-dance 200 (lrld (layer-switch gaming) (layer-switch empty)))
+)
+(deflayer gaming
+  tab        q w e r t   _ _ ▲ _ _   _  @layouts
+  @escctrl   a s d f g   _ ◀ ▼ ▶ _   _
+  lsft       z x c v _   _ _ _ _ _   _
+          _ spc _   _ spc _
+)
+(deflayer empty
+  _   _ _ _ _ _   _ _ _ _ _   _  @layouts
+  _   _ _ _ _ _   _ _ _ _ _   _
+  _   _ _ _ _ _   _ _ _ _ _   _
+          _ _ _   _ _ _
+)
