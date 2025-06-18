@@ -40,40 +40,40 @@ esc caps  a  s  d  f  g      j  k  l  ñ  ´  ret
           @\ @! @@ @# @$ @%     @&  7  8  9 @?  _    _
           @` @< @[ @{ @⟮ @=     @/  4  5  6  +  .
  @sSym @sSym @> @^ @· @~ @|     @*  1  2  3  0  @sSym
-                _  @sSym   _    _    _    _
+                _  @sSym @fn   @fn   _    .
 )
 
 (deflayer symbol-shift
        _  ¡  _ @€  _  _      _  _  _  _   @¿  del   _
        _  _ @] @} @⟯  _      ◀  ▼  ▲  ▶   🔆  _
-    _  _  _  _  _  _  _      _  _  _  _   🔅  _
-              🔉  🔇  🔊    ◀◀   ▶⏸   ▶▶
+    _  _  _  _  _  _  f5     f7 _  _  _   🔅  _
+              ◀◀  ▶⏸  ▶▶    🔉  🔇  🔊
 )
 (deflayer accent-left
        _  _  _ @è  _  _      _ @ù @ì @ò  _  _       _
        _ @à  _  _  _  _      _  _  _  _  _  _
     _  _  _  _  ç  _  _      ñ  _  _  _  _  _
-                _    _  _  _    _    _
+                _   @`  _   _   @`  _
 )
 (deflayer accent-right
        _  _  _ @é  _  _      _ @ú @í @ó  _  _       _
        _ @á  _  _  _  _      _  _  _  _  _  _
     _  _  _  _  ç  _  _      ñ  _  _  _  _  _
-                _    _  _  _    _    _
+                _   @´  _  _    @´    _
 )
-(deflayer accent-dieresis
-       _  _  _  _  _  _      _ @ü @ï  _  _  _       _
-       _  _  _  _  _  _      _  _  _  _  _  _
-    _  _  _  _  _  _  _      _  _  _  _  _  _
-             _    _  _    _     _    _
-)
-
-;; (deflayer function
-;;        _  _  _  _  _  _      _  _  _  _  _  _       _
+;; (deflayer accent-dieresis
+;;        _  _  _  _  _  _      _ @ü @ï  _  _  _       _
 ;;        _  _  _  _  _  _      _  _  _  _  _  _
 ;;     _  _  _  _  _  _  _      _  _  _  _  _  _
-;;              _   _    _     _      _     _
+;;              _    _  _    _     _    _
 ;; )
+
+(deflayer function
+      f1 f2 f3 f4 f5 f6      f7 f8 f9 f10 f11 f12       _
+       _  _  _  _  _  _      _  _  _  _  _  _
+    _  _  _  _  _  _  _      _  _  _  _  _  _
+             _   _    _     _      _     _
+)
 
 (defalias
     ctl (tap-hold-press 100 250 esc lctl)
@@ -81,6 +81,7 @@ esc caps  a  s  d  f  g      j  k  l  ñ  ´  ret
     ;; bspc (fork bspc del (sft))
     ;; spc (tap-hold-press 0 250 spc (layer-while-held symbol))
     sym (layer-while-held symbol)
+    fn (layer-while-held function)
     sSym (layer-while-held symbol-shift)
     acr (tap-hold-press 100 300 (one-shot-press 300 (layer-while-held accent-right)) lalt)
     acl (tap-hold-press 100 300 (one-shot-press 300 (layer-while-held accent-left)) lalt)
@@ -115,6 +116,7 @@ esc caps  a  s  d  f  g      j  k  l  ñ  ´  ret
     {  AG-´
     }  AG-ç
     `  (macro ` spc)
+    ´  (macro ´ spc)
 
     á  (macro ´ a)
     à  (macro ` a)
